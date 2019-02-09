@@ -8,6 +8,7 @@ import { setCurrentTab, setMaxTabs } from '../store/tabs'
 import Main from './main/Main'
 import Styler from './Styler'
 import Credits from './tabs/Credits'
+import Donate from './tabs/Donate'
 import Help from './tabs/Help'
 import ModInfo from './tabs/ModInfo'
 import Tools from './tabs/Tools'
@@ -17,6 +18,7 @@ import { STYLE_OVERRIDE } from '../constants'
 interface IProps {
   currentTab: number
   selected: number | null
+  seenDonationPage: boolean
 
   setContainer: typeof setContainer
   setCurrentTab: typeof setCurrentTab
@@ -27,6 +29,7 @@ interface IPage {
   title: string
   component: React.ReactNode
   overrideStyles?: boolean
+  donatePage?: boolean
 }
 
 class MainTabs extends Component<IProps> {
@@ -41,6 +44,7 @@ class MainTabs extends Component<IProps> {
       { title: 'Tools', component: <Tools />, overrideStyles: true },
       { title: 'Help', component: <Help /> },
       { title: 'Credits', component: <Credits /> },
+      { title: 'Donate', component: <Donate />, donatePage: true },
     ]
 
     this.container = React.createRef()
@@ -60,15 +64,25 @@ class MainTabs extends Component<IProps> {
             { title: 'Mod Info', component: <ModInfo />, overrideStyles: true },
           ]
 
-    const selected =
-      this.props.currentTab > pages.length - 1 ? 0 : this.props.currentTab
+    const selected = !this.props.seenDonationPage
+      ? pages.findIndex(x => x.donatePage === true)
+      : this.props.currentTab > pages.length - 1
+      ? 0
+      : this.props.currentTab
 
     return (
       <>
         <div className='tabs'>
           <ul>
-            {pages.map(({ title }, i) => (
-              <li key={i} className={selected === i ? 'is-active' : ''}>
+            {pages.map(({ title, donatePage }, i) => (
+              <li
+                key={i}
+                className={`${selected === i ? 'is-active' : ''}${
+                  !this.props.seenDonationPage && !donatePage
+                    ? ' is-disabled'
+                    : ''
+                }`}
+              >
                 <a
                   href='/'
                   draggable={false}
@@ -105,6 +119,7 @@ class MainTabs extends Component<IProps> {
 const mapStateToProps: (state: IState) => IProps = state => ({
   container: state.container,
   currentTab: state.tabs.current,
+  seenDonationPage: state.misc.seenDonationPage,
   selected: state.mods.selected,
 
   setContainer,

@@ -87,6 +87,15 @@ div.layout-item.main {
   position: relative;
 }
 
+.tabs li.is-disabled a {
+  color: rgb(160, 160, 160);
+}
+
+.tabs li.is-disabled a:hover {
+  border-bottom-color: #dbdbdb;
+  cursor: not-allowed;
+}
+
 div.box#main {
   flex-grow: 1;
   --max-height-offset: 197px;
