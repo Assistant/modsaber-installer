@@ -8,9 +8,9 @@ import { IState } from './store'
 import { setGameVersions } from './store/gameVersions'
 import { IInstallState, setInstall } from './store/install'
 import { dequeueJob, enqueueJob } from './store/jobs'
+import { loadTheme, toggleTheme } from './store/misc'
 import { setMods, toggleMod } from './store/mods'
 import { setStatus, setStatusText, setStatusType } from './store/status'
-import { loadTheme, toggleTheme } from './store/theme'
 
 import { Status, StatusText } from './constants'
 

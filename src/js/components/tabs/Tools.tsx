@@ -6,8 +6,8 @@ import { openLog, uploadLog } from '../../utils/logs'
 import { IState } from '../../store'
 import { IInstallState } from '../../store/install'
 import { IJobsState } from '../../store/jobs'
+import { IMiscState, toggleTheme } from '../../store/misc'
 import { IStatusState } from '../../store/status'
-import { IThemeState, toggleTheme } from '../../store/theme'
 
 import { Status } from '../../constants'
 
@@ -15,7 +15,7 @@ interface IProps {
   install: IInstallState
   jobs: IJobsState
   status: IStatusState
-  theme: IThemeState
+  theme: IMiscState['theme']
 
   toggleTheme: typeof toggleTheme
 }
@@ -68,7 +68,7 @@ const mapStateToProps: (state: IState) => IProps = state => ({
   install: state.install,
   jobs: state.jobs,
   status: state.status,
-  theme: state.theme,
+  theme: state.misc.theme,
 
   toggleTheme,
 })
