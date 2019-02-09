@@ -20,7 +20,7 @@ const reducer: Reducer<IMiscState> = (state = initialState, action) => {
     setTheme(theme)
 
     return { ...state, theme }
-  } else if (MiscActionTypes.SET_SEEN_DONATION_PAGE) {
+  } else if (action.type === MiscActionTypes.SET_SEEN_DONATION_PAGE) {
     return { ...state, seenDonationPage: action.payload }
   } else {
     return state

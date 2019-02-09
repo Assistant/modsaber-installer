@@ -34,7 +34,7 @@ export interface IConnectedReduxProps<A extends Action = AnyAction> {
   dispatch: Dispatch<A>
 }
 
-export const rootReducer: any = combineReducers<IState>({
+export const rootReducer = combineReducers<IState>({
   container: containerReducer,
   gameVersions: gameVersionReducer,
   install: installReducer,
