@@ -59,6 +59,10 @@ td.icon.locked {
   padding: 0 !important;
 }
 
+td.icon.checkbox:hover {
+  color: var(--white);
+}
+
 td.icon i {
   font-size: 1.2rem;
   line-height: 0;
