@@ -89,7 +89,8 @@ div.layout-item.main {
 
 div.box#main {
   flex-grow: 1;
-  max-height: calc(100vh - 197px);
+  --max-height-offset: 197px;
+  max-height: calc(100vh - var(--max-height-offset, 197px));
 
   display: flex;
   flex-direction: column;
