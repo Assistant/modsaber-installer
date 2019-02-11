@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import Highlight from 'react-highlight'
 import ReactMarkdown from 'react-markdown'
 
-import 'highlight.js/styles/atom-one-light.css'
+import '../../../css/hljs.css'
 import ExtLink from './ExtLink'
 
 interface IRendererProps {
