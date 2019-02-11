@@ -45,7 +45,9 @@ export const rootReducer = combineReducers<IState>({
   tabs: tabsReducer,
 })
 
-export const store = createStore(
-  rootReducer,
-  compose(applyMiddleware(thunk, logger))
-)
+const middleware =
+  process.env.NODE_ENV === 'production'
+    ? applyMiddleware(thunk)
+    : applyMiddleware(thunk, logger)
+
+export const store = createStore(rootReducer, compose(middleware))
