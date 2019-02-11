@@ -58,7 +58,7 @@
   },
   "scripts": {
     "electron": "electron .",
-    "dev": "electron . --debug",
+    "dev": "npm run electron -- --debug",
     "start": "npm run start-react",
     "start-react": "cross-env BROWSER=none react-scripts start",
     "build-react": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
@@ -70,7 +70,8 @@
     "ship": "npm run build-react && npm run ship-electron",
     "lint-electron": "eslint --color --ext .js public/",
     "lint-react": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
-    "lint": "npm run lint-react && npm run lint-electron"
+    "lint": "npm run lint-react && npm run lint-electron",
+    "test": "npm run lint"
   },
   "build": {
     "appId": "com.jackbaron.modsaber-installer",
