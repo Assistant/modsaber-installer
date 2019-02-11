@@ -25,52 +25,48 @@ interface IProps {
   setMaxTabs: typeof setMaxTabs
 }
 
-const BottomBar: FunctionComponent<IProps> = props => {
-  const handleModInfo = () => {
-    const tab = props.tabs.current !== props.tabs.max ? props.tabs.max : 0
+const handleModInfo = (props: IProps) => {
+  const tab = props.tabs.current !== props.tabs.max ? props.tabs.max : 0
 
-    if (props.container !== null) props.container.scrollTop = 0
-    props.setCurrentTab(tab)
-  }
+  if (props.container !== null) props.container.scrollTop = 0
+  props.setCurrentTab(tab)
+}
 
-  return (
-    <>
-      <span className='status'>
-        {props.status.type === Status.OFFLINE ? 'Error' : 'Status'}:{' '}
-        {props.status.text}
-      </span>
+const BottomBar: FunctionComponent<IProps> = props => (
+  <>
+    <span className='status'>
+      {props.status.type === Status.OFFLINE ? 'Error' : 'Status'}:{' '}
+      {props.status.text}
+    </span>
 
+    <button
+      className='button'
+      disabled={props.disableSelected}
+      onClick={() => handleModInfo(props)}
+    >
+      {props.tabs.current !== props.tabs.max
+        ? 'View Selected Mod Info'
+        : 'Go Back'}
+    </button>
+
+    {props.pirated ? (
       <button
         className='button'
-        disabled={props.disableSelected}
-        onClick={() => handleModInfo()}
+        onClick={() => shell.openExternal('https://beatgames.com/')}
       >
-        {props.tabs.current !== props.tabs.max
-          ? 'View Selected Mod Info'
-          : 'Go Back'}
+        Buy the Game
       </button>
-
-      {props.pirated ? (
-        <button
-          className='button'
-          onClick={() => shell.openExternal('https://beatgames.com/')}
-        >
-          Buy the Game
-        </button>
-      ) : (
-        <button
-          className={`button${props.jobs.length > 0 ? ' is-loading' : ''}`}
-          disabled={props.disableInstall}
-          onClick={() => {
-            props.installMods()
-          }}
-        >
-          Install / Update
-        </button>
-      )}
-    </>
-  )
-}
+    ) : (
+      <button
+        className={`button${props.jobs.length > 0 ? ' is-loading' : ''}`}
+        disabled={props.disableInstall}
+        onClick={props.installMods}
+      >
+        Install / Update
+      </button>
+    )}
+  </>
+)
 
 const mapStateToProps: (state: IState) => IProps = state => ({
   container: state.container,
