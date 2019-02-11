@@ -60,12 +60,12 @@ div.layout-item {
 }
 
 /* Banner */
-article.message.is-link div.message-body {
+article.message.is-danger div.message-body {
   padding: 0.75em 1.25em;
 
-  color: var(--white, #3273dc);
-  background-color: var(--dark, #f6f9fe);
-  border-color: var(--white, #3273dc);
+  color: var(--white, #b6072a);
+  background-color: var(--dark, #ffe3e3);
+  border-color: var(--white, #ff2652);
 }
 
 /* Top Content */

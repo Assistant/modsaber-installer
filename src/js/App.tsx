@@ -15,7 +15,7 @@ import {
 const App = () => (
   <div className='layout'>
     <div className='layout-item banner'>
-      <Banner style='link'>
+      <Banner style='danger'>
         <p>{DONATION_TEXT}</p>
         <p>
           <ExtLink href={DONATION_LINK}>{DONATION_LINK_TEXT}</ExtLink>{' '}

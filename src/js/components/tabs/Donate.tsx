@@ -44,7 +44,11 @@ const Donate: FunctionComponent<IProps> = props => (
           props.setCurrentTab(0)
         }}
       >
-        <i>{closeMessages[Math.floor(Math.random() * closeMessages.length)]}</i>
+        <button className='button'>
+          <i>
+            {closeMessages[Math.floor(Math.random() * closeMessages.length)]}
+          </i>
+        </button>
       </a>
     </p>
   </div>
