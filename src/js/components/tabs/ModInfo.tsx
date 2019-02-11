@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { IMod } from '../../models/modsaber'
 import { IState } from '../../store'
 
-import MarkdownRenderer from '../Markdown'
+import MarkdownRenderer from '../utils/Markdown'
 
 interface IProps {
   mod: IMod

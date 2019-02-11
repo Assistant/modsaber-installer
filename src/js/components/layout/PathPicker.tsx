@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { dialog, getCurrentWindow, ipcRenderer } from '../utils/electron'
+import { dialog, getCurrentWindow, ipcRenderer } from '../../utils/electron'
 
-import { IGameVersion } from '../models/modsaber'
-import { IState } from '../store'
+import { IGameVersion } from '../../models/modsaber'
+import { IState } from '../../store'
 import {
   IGameVersionState,
   setSelectedGameVersion,
-} from '../store/gameVersions'
-import { IInstallState } from '../store/install'
-import { IJobsState } from '../store/jobs'
-import { setMods } from '../store/mods'
-import { IStatusState } from '../store/status'
+} from '../../store/gameVersions'
+import { IInstallState } from '../../store/install'
+import { IJobsState } from '../../store/jobs'
+import { setMods } from '../../store/mods'
+import { IStatusState } from '../../store/status'
 
-import { Status } from '../constants'
+import { Status } from '../../constants'
 
 interface IProps {
   gameVersions: IGameVersionState['values']

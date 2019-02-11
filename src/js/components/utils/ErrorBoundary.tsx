@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Konami from 'react-konami-code'
 
-import Icon from '../img/icon.png'
+import Icon from '../../../img/icon.png'
 
 interface IProps {
   children: React.ReactNode

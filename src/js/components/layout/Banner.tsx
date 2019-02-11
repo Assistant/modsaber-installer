@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import Styler from './Styler'
+import Styler from '../utils/Styler'
 
 type BannerStyle =
   | 'dark'

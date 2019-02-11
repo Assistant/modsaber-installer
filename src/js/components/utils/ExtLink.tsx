@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { shell } from '../utils/electron'
+import { shell } from '../../utils/electron'
 
 interface IProps {
   children: React.ReactNode

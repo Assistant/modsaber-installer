@@ -1,5 +1,5 @@
 import React from 'react'
-import ExtLink from '../ExtLink'
+import ExtLink from '../utils/ExtLink'
 
 const Credits = () => (
   <div className='content'>

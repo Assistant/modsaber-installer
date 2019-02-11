@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import Konami from 'react-konami-code'
 import { connect } from 'react-redux'
-import { ipcRenderer } from './utils/electron'
+import { ipcRenderer } from '../../utils/electron'
 
-import { IGameVersion, IMod } from './models/modsaber'
-import { IState } from './store'
-import { setGameVersions } from './store/gameVersions'
-import { IInstallState, setInstall } from './store/install'
-import { dequeueJob, enqueueJob } from './store/jobs'
-import { loadTheme, toggleTheme } from './store/misc'
-import { setMods, toggleMod } from './store/mods'
-import { setStatus, setStatusText, setStatusType } from './store/status'
+import { IGameVersion, IMod } from '../../models/modsaber'
+import { IState } from '../../store'
+import { setGameVersions } from '../../store/gameVersions'
+import { IInstallState, setInstall } from '../../store/install'
+import { dequeueJob, enqueueJob } from '../../store/jobs'
+import { loadTheme, toggleTheme } from '../../store/misc'
+import { setMods, toggleMod } from '../../store/mods'
+import { setStatus, setStatusText, setStatusType } from '../../store/status'
 
-import { Status, StatusText } from './constants'
+import { Status, StatusText } from '../../constants'
 
 interface IProps {
   selected: number | null

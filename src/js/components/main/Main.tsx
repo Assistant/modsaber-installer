@@ -8,7 +8,7 @@ import { IInstallState } from '../../store/install'
 import { IJobsState } from '../../store/jobs'
 import { IStatusState, setStatus } from '../../store/status'
 
-import Styler from '../Styler'
+import Styler from '../utils/Styler'
 import Mods from './Mods'
 import Status from './Status'
 

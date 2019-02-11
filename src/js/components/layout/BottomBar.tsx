@@ -1,16 +1,16 @@
 import React, { FunctionComponent } from 'react'
 import { connect } from 'react-redux'
-import { shell } from '../utils/electron'
+import { shell } from '../../utils/electron'
 
-import { IMod } from '../models/modsaber'
-import { IState } from '../store'
-import { IContainerState } from '../store/container'
-import { IJobsState } from '../store/jobs'
-import { installMods } from '../store/mods'
-import { IStatusState } from '../store/status'
-import { ITabsState, setCurrentTab, setMaxTabs } from '../store/tabs'
+import { IMod } from '../../models/modsaber'
+import { IState } from '../../store'
+import { IContainerState } from '../../store/container'
+import { IJobsState } from '../../store/jobs'
+import { installMods } from '../../store/mods'
+import { IStatusState } from '../../store/status'
+import { ITabsState, setCurrentTab, setMaxTabs } from '../../store/tabs'
 
-import { Status } from '../constants'
+import { Status } from '../../constants'
 
 interface IProps {
   container: IContainerState

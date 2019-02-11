@@ -1,10 +1,10 @@
 import React from 'react'
 
-import Banner from './components/Banner'
-import BottomBar from './components/BottomBar'
-import ExtLink from './components/ExtLink'
-import MainTabs from './components/MainTabs'
-import PathPicker from './components/PathPicker'
+import Banner from './components/layout/Banner'
+import BottomBar from './components/layout/BottomBar'
+import MainTabs from './components/layout/MainTabs'
+import PathPicker from './components/layout/PathPicker'
+import ExtLink from './components/utils/ExtLink'
 import {
   DONATION_LINK,
   DONATION_LINK_TEXT,

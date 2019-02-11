@@ -9,7 +9,7 @@ import {
 import { IState } from '../../store'
 import { setSeenDonationPage } from '../../store/misc'
 import { setCurrentTab } from '../../store/tabs'
-import ExtLink from '../ExtLink'
+import ExtLink from '../utils/ExtLink'
 
 interface IProps {
   seenDonationPage: boolean

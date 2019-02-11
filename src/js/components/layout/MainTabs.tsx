@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { IState } from '../store'
-import { setContainer } from '../store/container'
-import { setCurrentTab, setMaxTabs } from '../store/tabs'
+import { IState } from '../../store'
+import { setContainer } from '../../store/container'
+import { setCurrentTab, setMaxTabs } from '../../store/tabs'
 
-import Main from './main/Main'
-import Styler from './Styler'
-import Credits from './tabs/Credits'
-import Donate from './tabs/Donate'
-import Help from './tabs/Help'
-import ModInfo from './tabs/ModInfo'
-import Tools from './tabs/Tools'
+import Main from '../main/Main'
+import Credits from '../tabs/Credits'
+import Donate from '../tabs/Donate'
+import Help from '../tabs/Help'
+import ModInfo from '../tabs/ModInfo'
+import Tools from '../tabs/Tools'
+import Styler from '../utils/Styler'
 
-import { STYLE_OVERRIDE } from '../constants'
+import { STYLE_OVERRIDE } from '../../constants'
 
 interface IProps {
   currentTab: number

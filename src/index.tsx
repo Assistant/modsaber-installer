@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
 import App from './js/App'
-import ErrorBoundary from './js/ErrorBoundary'
-import Events from './js/Events'
+import ErrorBoundary from './js/components/utils/ErrorBoundary'
+import Events from './js/components/utils/Events'
 import Splash from './js/Splash'
 import { store } from './js/store/index'
 

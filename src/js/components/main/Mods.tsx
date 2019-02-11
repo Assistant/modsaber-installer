@@ -5,7 +5,7 @@ import { ICategory, IMod } from '../../models/modsaber'
 import { IState } from '../../store'
 import { setSelectedMod, toggleMod } from '../../store/mods'
 
-import Styler from '../Styler'
+import Styler from '../utils/Styler'
 
 import { CATEGORY_DEFAULT, STYLE_OVERRIDE } from '../../constants'
 
