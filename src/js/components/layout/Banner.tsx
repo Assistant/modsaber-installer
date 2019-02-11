@@ -21,9 +21,7 @@ const Banner: FunctionComponent<IProps> = ({ children, style }) => (
 
     <div className='banner'>
       <article className={`message is-${style}`}>
-        <div className='message-body' style={{ padding: '0.75em 1.25em' }}>
-          {children}
-        </div>
+        <div className='message-body'>{children}</div>
       </article>
     </div>
   </>
