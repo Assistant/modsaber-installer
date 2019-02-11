@@ -5,8 +5,10 @@ const reducer: Reducer<IContainerState> = (state = null, action) => {
   switch (action.type) {
     case ContainerActionTypes.SET_CONTAINER:
       return action.payload
+
     case ContainerActionTypes.CLEAR_CONTAINER:
       return null
+
     default:
       return state
   }

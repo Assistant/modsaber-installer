@@ -92,4 +92,4 @@ const mapStateToProps: (state: IState) => IProps = state => ({
 export default connect(
   mapStateToProps,
   { installMods, setCurrentTab, setMaxTabs }
-)(BottomBar)
+)(React.memo(BottomBar))

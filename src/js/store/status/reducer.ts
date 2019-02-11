@@ -10,11 +10,23 @@ const initialState: IStatusState = {
 const reducer: Reducer<IStatusState> = (state = initialState, action) => {
   switch (action.type) {
     case StatusActionTypes.SET_STATUS:
-      return action.payload
+      if (
+        action.payload.type === state.type &&
+        action.payload.text === state.text
+      ) {
+        return state
+      } else {
+        return action.payload
+      }
+
     case StatusActionTypes.SET_STATUS_TYPE:
-      return { ...state, type: action.payload }
+      if (action.payload === state.type) return state
+      else return { ...state, type: action.payload }
+
     case StatusActionTypes.SET_STATUS_TEXT:
-      return { ...state, text: action.payload }
+      if (action.payload === state.text) return state
+      else return { ...state, text: action.payload }
+
     default:
       return state
   }

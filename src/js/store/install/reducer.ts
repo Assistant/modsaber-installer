@@ -11,10 +11,13 @@ const reducer: Reducer<IInstallState> = (state = initialState, action) => {
   switch (action.type) {
     case InstallActionTypes.SET_INSTALL:
       return action.payload
+
     case InstallActionTypes.SET_INSTALL_PATH:
       return { ...state, path: action.payload }
+
     case InstallActionTypes.SET_INSTALL_PLATFORM:
       return { ...state, platform: action.payload }
+
     default:
       return state
   }
