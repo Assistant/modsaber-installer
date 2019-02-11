@@ -49,6 +49,7 @@ class Events extends Component<IProps> {
     ipcRenderer.on('set-path', (_: any, install: IInstallState) =>
       this.props.setInstall(install)
     )
+
     ipcRenderer.on(
       'set-remote',
       (

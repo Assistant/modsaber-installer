@@ -9,6 +9,7 @@ import MarkdownRenderer from '../Markdown'
 interface IProps {
   mod: IMod
 }
+
 const ModInfo: FunctionComponent<IProps> = ({ mod }) => (
   <>
     <div className='content'>

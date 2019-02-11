@@ -18,6 +18,7 @@ const Splash = () => (
       style={{ width: '50%', height: 'auto' }}
       alt='ModSaber Logo'
     />
+
     <div style={{ textAlign: 'center' }}>
       <h1 className='is-size-4 has-text-weight-semibold'>ModSaber Installer</h1>
       <h3>

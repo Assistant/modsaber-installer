@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { shell } from '../utils/electron'
 
 interface IProps {
@@ -6,7 +6,7 @@ interface IProps {
   href: string
 }
 
-const ExtLink = (props: IProps) => (
+const ExtLink: FunctionComponent<IProps> = props => (
   <a
     href='/'
     onClick={e => {

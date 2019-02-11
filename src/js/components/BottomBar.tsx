@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { FunctionComponent } from 'react'
 import { connect } from 'react-redux'
 import { shell } from '../utils/electron'
 
@@ -26,60 +26,55 @@ interface IProps {
   setMaxTabs: typeof setMaxTabs
 }
 
-class BottomBar extends Component<IProps> {
-  public handleModInfo() {
-    const tab =
-      this.props.tabs.current !== this.props.tabs.max ? this.props.tabs.max : 0
+const BottomBar: FunctionComponent<IProps> = props => {
+  const handleModInfo = () => {
+    const tab = props.tabs.current !== props.tabs.max ? props.tabs.max : 0
 
-    if (this.props.container !== null) this.props.container.scrollTop = 0
-    return this.props.setCurrentTab(tab)
+    if (props.container !== null) props.container.scrollTop = 0
+    props.setCurrentTab(tab)
   }
 
-  public render() {
-    return (
-      <>
-        <span className='status'>
-          {this.props.status.type === Status.OFFLINE ? 'Error' : 'Status'}:{' '}
-          {this.props.status.text}
-        </span>
+  return (
+    <>
+      <span className='status'>
+        {props.status.type === Status.OFFLINE ? 'Error' : 'Status'}:{' '}
+        {props.status.text}
+      </span>
 
+      <button
+        className='button'
+        disabled={props.pirated || props.selected === null}
+        onClick={() => handleModInfo()}
+      >
+        {props.tabs.current !== props.tabs.max
+          ? 'View Selected Mod Info'
+          : 'Go Back'}
+      </button>
+
+      {props.pirated ? (
         <button
           className='button'
-          disabled={this.props.pirated || this.props.selected === null}
-          onClick={() => this.handleModInfo()}
+          onClick={() => shell.openExternal('https://beatgames.com/')}
         >
-          {this.props.tabs.current !== this.props.tabs.max
-            ? 'View Selected Mod Info'
-            : 'Go Back'}
+          Buy the Game
         </button>
-
-        {this.props.pirated ? (
-          <button
-            className='button'
-            onClick={() => shell.openExternal('https://beatgames.com/')}
-          >
-            Buy the Game
-          </button>
-        ) : (
-          <button
-            className={`button${
-              this.props.jobs.length > 0 ? ' is-loading' : ''
-            }`}
-            disabled={
-              this.props.jobs.length > 0 ||
-              this.props.status.type === Status.LOADING ||
-              this.props.mods.length === 0
-            }
-            onClick={() => {
-              this.props.installMods()
-            }}
-          >
-            Install / Update
-          </button>
-        )}
-      </>
-    )
-  }
+      ) : (
+        <button
+          className={`button${props.jobs.length > 0 ? ' is-loading' : ''}`}
+          disabled={
+            props.jobs.length > 0 ||
+            props.status.type === Status.LOADING ||
+            props.mods.length === 0
+          }
+          onClick={() => {
+            props.installMods()
+          }}
+        >
+          Install / Update
+        </button>
+      )}
+    </>
+  )
 }
 
 const mapStateToProps: (state: IState) => IProps = state => ({

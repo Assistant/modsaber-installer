@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, FunctionComponent } from 'react'
 import { connect } from 'react-redux'
 import { ipcRenderer } from '../../utils/electron'
 import { openLog, uploadLog } from '../../utils/logs'
@@ -20,48 +20,46 @@ interface IProps {
   toggleTheme: typeof toggleTheme
 }
 
-class Tools extends Component<IProps> {
-  public render() {
-    const working = this.props.jobs.length > 0
-    const disabled = working || this.props.status.type === Status.LOADING
+const Tools: FunctionComponent<IProps> = props => {
+  const working = props.jobs.length > 0
+  const disabled = working || props.status.type === Status.LOADING
 
-    return (
-      <>
-        <div className='content tools'>
-          <h1>Theme</h1>
-          <button className='button' onClick={() => this.props.toggleTheme()}>
-            Activate {this.props.theme === 'dark' ? 'Light' : 'Dark'} Theme
-          </button>
+  return (
+    <>
+      <div className='content tools'>
+        <h1>Theme</h1>
+        <button className='button' onClick={() => props.toggleTheme()}>
+          Activate {props.theme === 'dark' ? 'Light' : 'Dark'} Theme
+        </button>
 
-          <hr />
-          <h1>Diagnostics</h1>
-          <button
-            className={`button${working ? ' is-loading' : ''}`}
-            disabled={disabled}
-            onClick={() => ipcRenderer.send('run-diagnostics')}
-          >
-            Run Diagnostics
-          </button>
-          <button
-            className={`button${working ? ' is-loading' : ''}`}
-            disabled={disabled}
-            onClick={() => ipcRenderer.send('patch-game', this.props.install)}
-          >
-            Patch Game
-          </button>
+        <hr />
+        <h1>Diagnostics</h1>
+        <button
+          className={`button${working ? ' is-loading' : ''}`}
+          disabled={disabled}
+          onClick={() => ipcRenderer.send('run-diagnostics')}
+        >
+          Run Diagnostics
+        </button>
+        <button
+          className={`button${working ? ' is-loading' : ''}`}
+          disabled={disabled}
+          onClick={() => ipcRenderer.send('patch-game', props.install)}
+        >
+          Patch Game
+        </button>
 
-          <hr />
-          <h1>ModSaber Installer Log</h1>
-          <button className='button' onClick={() => openLog()}>
-            Open Log
-          </button>
-          <button className='button' onClick={() => uploadLog()}>
-            Upload Log
-          </button>
-        </div>
-      </>
-    )
-  }
+        <hr />
+        <h1>ModSaber Installer Log</h1>
+        <button className='button' onClick={() => openLog()}>
+          Open Log
+        </button>
+        <button className='button' onClick={() => uploadLog()}>
+          Upload Log
+        </button>
+      </div>
+    </>
+  )
 }
 
 const mapStateToProps: (state: IState) => IProps = state => ({
