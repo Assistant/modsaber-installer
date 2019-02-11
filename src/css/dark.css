@@ -131,3 +131,8 @@ html.dark div.separator {
 html.dark .table tr.selected {
   background-color: rgba(123, 174, 255, 0.15);
 }
+
+html.dark pre {
+  background-color: var(--black);
+  border: 1px solid rgba(0,0,0,.6);
+}
