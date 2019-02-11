@@ -16,7 +16,8 @@ export const reducer: Reducer<IModsState> = (state = initialState, action) => {
       return { ...state, list: action.payload }
 
     case ModsActionTypes.SET_SELECTED_MOD:
-      return { ...state, selected: action.payload }
+      if (action.payload === state.selected) return state
+      else return { ...state, selected: action.payload }
 
     default:
       return state
