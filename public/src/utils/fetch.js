@@ -1,8 +1,10 @@
+const certs = require('ssl-root-cas/latest').create()
 const { default: fetch } = require('node-fetch')
 const https = require('https')
 const { USER_AGENT } = require('../constants.js')
 const agent = new https.Agent({
   keepAlive: true,
+  ca: certs,
 })
 
 /**
