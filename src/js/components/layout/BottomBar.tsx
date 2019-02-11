@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react'
 import { connect } from 'react-redux'
 import { shell } from '../../utils/electron'
 
-import { IMod } from '../../models/modsaber'
 import { IState } from '../../store'
 import { IContainerState } from '../../store/container'
 import { IJobsState } from '../../store/jobs'
@@ -15,9 +14,9 @@ import { Status } from '../../constants'
 interface IProps {
   container: IContainerState
   jobs: IJobsState
-  mods: IMod[]
   pirated: boolean
-  selected: number | null
+  disableInstall: boolean
+  disableSelected: boolean
   status: IStatusState
   tabs: ITabsState
 
@@ -43,7 +42,7 @@ const BottomBar: FunctionComponent<IProps> = props => {
 
       <button
         className='button'
-        disabled={props.pirated || props.selected === null}
+        disabled={props.disableSelected}
         onClick={() => handleModInfo()}
       >
         {props.tabs.current !== props.tabs.max
@@ -61,11 +60,7 @@ const BottomBar: FunctionComponent<IProps> = props => {
       ) : (
         <button
           className={`button${props.jobs.length > 0 ? ' is-loading' : ''}`}
-          disabled={
-            props.jobs.length > 0 ||
-            props.status.type === Status.LOADING ||
-            props.mods.length === 0
-          }
+          disabled={props.disableInstall}
           onClick={() => {
             props.installMods()
           }}
@@ -79,10 +74,13 @@ const BottomBar: FunctionComponent<IProps> = props => {
 
 const mapStateToProps: (state: IState) => IProps = state => ({
   container: state.container,
+  disableInstall:
+    state.jobs.length > 0 ||
+    state.status.type === Status.LOADING ||
+    state.mods.list.length === 0,
+  disableSelected: state.install.pirated || state.mods.selected === null,
   jobs: state.jobs,
-  mods: state.mods.list,
   pirated: state.install.pirated,
-  selected: state.mods.selected,
   status: state.status,
   tabs: state.tabs,
 
