@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Banner from './components/layout/Banner'
+import Banner, { BannerStyle } from './components/layout/Banner'
 import BottomBar from './components/layout/BottomBar'
 import MainTabs from './components/layout/MainTabs'
 import PathPicker from './components/layout/PathPicker'
@@ -15,7 +15,7 @@ import {
 const App = () => (
   <div className='layout'>
     <div className='layout-item banner'>
-      <Banner style='danger'>
+      <Banner style={BannerStyle.Danger}>
         <p>{DONATION_TEXT}</p>
         <p>
           <ExtLink href={DONATION_LINK}>{DONATION_LINK_TEXT}</ExtLink>{' '}
