@@ -64,5 +64,3 @@ export const runJob = async <T>(job: Promise<T>) => {
   await dequeueJob(jobID)
   return !error
 }
-
-module.exports = { JobError, runJob }

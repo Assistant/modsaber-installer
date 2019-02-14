@@ -22,6 +22,11 @@ export const ERRORS = {
     'Failed to upload diagnostics!\nReport is too big to upload.',
   INVALID_INSTALL_DIR:
     'Could not find your Beat Saber directory.\nRun the mod manager once first!',
+  PLAYLIST_DOWNLOAD_ERROR:
+    'Playlist info could not be downloaded!\nDouble check the URL exists and is valid.',
+  PLAYLIST_INVALID: 'Invalid Playlist File!',
+  PLAYLIST_UNTRUSTED:
+    'For security reasons we do not allow playlists with custom archive URLs!',
 }
 
 export const REGISTERED_EXTS = [

@@ -13,13 +13,11 @@
     "downlevelIteration": true,
     "outDir": "../public",
     "rootDir": ".",
-    "allowJs": true,
     "types": [
       "node"
     ]
   },
   "include": [
-    "./**/*.js",
     "./**/*.ts"
   ],
   "exclude": [

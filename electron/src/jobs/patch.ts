@@ -14,7 +14,7 @@ export class PatchError extends JobError {
   }
 }
 
-const patchGame = async (install: IInstall) => {
+export const patchGame = async (install: IInstall) => {
   // Window Details
   const { sender } = getActiveWindow()
 
@@ -69,5 +69,3 @@ const patchGame = async (install: IInstall) => {
     throw err
   }
 }
-
-module.exports = { PatchError, patchGame }

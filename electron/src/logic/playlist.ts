@@ -57,5 +57,3 @@ export const installPlaylist = async (
   sender.send('set-status', { text: 'Playlist downloaded!' })
   return undefined
 }
-
-module.exports = { resolvePlaylist, installPlaylist }

@@ -25,4 +25,5 @@ export interface IGameVersion {
   id: string
   value: string
   manifest: string
+  selected: boolean
 }

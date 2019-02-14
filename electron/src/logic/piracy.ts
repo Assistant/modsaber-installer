@@ -22,5 +22,3 @@ export const checkPiracy = async (installDir: string) => {
   const checked = await Promise.all(checks)
   return checked.some(x => x.exists === true)
 }
-
-module.exports = { checkPiracy }

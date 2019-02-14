@@ -1,10 +1,19 @@
-const { ipcMain } = require('electron')
-const { installMods } = require('../jobs/installer.js')
-const { patchGame } = require('../jobs/patch.js')
-const { enqueueJob, dequeueJob } = require('../utils/queue.js')
-const { runJob } = require('../jobs/job.js')
+import { ipcMain } from 'electron'
+import { installMods } from '../jobs/installer'
+import { runJob } from '../jobs/job'
+import { patchGame } from '../jobs/patch'
+import { IInstall } from '../models/installer'
+import { IPCSender } from '../models/ipc'
+import { IGameVersion, IMod } from '../models/modsaber'
+import { dequeueJob, enqueueJob } from '../utils/queue'
 
-ipcMain.on('install-mods', async ({ sender }, data) => {
+interface IPayload {
+  mods: IMod[]
+  install: IInstall
+  gameVersion: IGameVersion
+}
+
+ipcMain.on('install-mods', async ({ sender }: IPCSender, data: IPayload) => {
   // Wrap the whole thing in a job
   const jobID = await enqueueJob()
 
@@ -23,7 +32,7 @@ ipcMain.on('install-mods', async ({ sender }, data) => {
   return dequeueJob(jobID)
 })
 
-ipcMain.on('patch-game', async (_, install) => {
+ipcMain.on('patch-game', async (_: any, install: IInstall) => {
   // Patch game
   const patchJob = patchGame(install)
   await runJob(patchJob)

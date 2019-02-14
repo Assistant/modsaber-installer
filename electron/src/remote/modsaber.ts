@@ -2,6 +2,7 @@ import log from 'electron-log'
 import { inspect } from 'util'
 import { API_URL, BLOCKED_EXTENSIONS } from '../constants'
 import { IGameVersion, IMod } from '../models/modsaber'
+import { fetch } from '../utils/fetch'
 import { calculateHash } from '../utils/helpers'
 import { extractZip, safeDownload } from './remote'
 

@@ -1,10 +1,11 @@
-const { BrowserWindow, ipcMain } = require('electron')
-const log = require('electron-log')
-const { fetchModsSafer, fetchGameVersions } = require('../remote/modsaber.js')
-const { findSteam } = require('../logic/pathFinder.js')
-const { STEAM_APP_ID } = require('../constants.js')
+import { BrowserWindow, ipcMain } from 'electron'
+import log from 'electron-log'
+import { STEAM_APP_ID } from '../constants'
+import { findSteam } from '../logic/pathFinder'
+import { IPCSender } from '../models/ipc'
+import { fetchGameVersions, fetchModsSafer } from '../remote/modsaber'
 
-ipcMain.on('get-remote', async ({ sender }) => {
+ipcMain.on('get-remote', async ({ sender }: IPCSender) => {
   const window = BrowserWindow.fromWebContents(sender)
   window.setProgressBar(1, { mode: 'indeterminate' })
 
@@ -16,7 +17,9 @@ ipcMain.on('get-remote', async ({ sender }) => {
 
     const manifestTest = await findSteam(STEAM_APP_ID)
     if (manifestTest.found) {
-      const idx = gameVersions.findIndex(x => x.manifest === manifestTest.manifest)
+      const idx = gameVersions.findIndex(
+        x => x.manifest === manifestTest.manifest
+      )
       if (idx > 0) gameVersions[idx].selected = true
       else gameVersions[0].selected = true
     } else {
