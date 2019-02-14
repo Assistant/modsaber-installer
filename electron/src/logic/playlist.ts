@@ -1,24 +1,11 @@
-const path = require('path')
-const fse = require('../utils/file.js')
-const { runJob } = require('../jobs/job.js')
-const { beatSaverBeatmap } = require('../jobs/beatmap.js')
-const { getActiveWindow } = require('../utils/window.js')
+import path from 'path'
+import { beatSaverBeatmap } from '../jobs/beatmap'
+import { runJob } from '../jobs/job'
+import { IPlaylist } from '../models/playlist'
+import fse from '../utils/file'
+import { getActiveWindow } from '../utils/window'
 
-/**
- * @typedef {Object} Playlist
- * @property {string} fileName
- * @property {string} title
- * @property {string} archiveUrl
- * @property {string} raw
- * @property {{ songName: string, key: string }[]} songs
- */
-
-/**
- * @param {string} fileName File Name
- * @param {any} json Raw Playlist JSON
- * @returns {{ playlist: Playlist, error: Error }}
- */
-const resolvePlaylist = (fileName, json) => {
+export const resolvePlaylist = (fileName: string, json: any) => {
   const { name } = path.parse(decodeURIComponent(fileName))
 
   // Validate JSON
@@ -27,22 +14,21 @@ const resolvePlaylist = (fileName, json) => {
   if (!json.songs) return { playlist: undefined, error }
 
   // Return
-  const playlist = {
-    fileName: `${name}.bplist`,
-    title: json.playlistTitle,
+  const playlist: IPlaylist = {
     archiveUrl: json.customArchiveUrl,
+    fileName: `${name}.bplist`,
     raw: JSON.stringify(json),
     songs: json.songs,
+    title: json.playlistTitle,
   }
+
   return { playlist, error: undefined }
 }
 
-/**
- * @param {Playlist} playlist Playlist
- * @param {string} installDir Install Dir
- * @returns {Promise.<void>}
- */
-const installPlaylist = async (playlist, installDir) => {
+export const installPlaylist = async (
+  playlist: IPlaylist,
+  installDir: string
+) => {
   // Window Details
   const { sender } = getActiveWindow()
 
@@ -53,16 +39,18 @@ const installPlaylist = async (playlist, installDir) => {
 
   // Writing playlist to file
   sender.send('set-status', { text: 'Saving playlist info...' })
-  fse.writeFile(path.join(installDir, 'Playlists', playlist.fileName), playlist.raw)
+  fse.writeFile(
+    path.join(installDir, 'Playlists', playlist.fileName),
+    playlist.raw
+  )
 
   // Start jobs for every song
   const jobs = playlist.songs.map(({ key, hash }) => {
-    const job = key ?
-      beatSaverBeatmap(key) :
-      beatSaverBeatmap(hash)
+    const job = key ? beatSaverBeatmap(key) : beatSaverBeatmap(hash)
 
     return runJob(job)
   })
+
   await Promise.all(jobs)
 
   // Send status and return

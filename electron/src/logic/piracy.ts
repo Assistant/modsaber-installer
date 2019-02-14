@@ -1,11 +1,7 @@
-const path = require('path')
-const { glob } = require('../utils/file.js')
+import path from 'path'
+import { glob } from '../utils/file'
 
-/**
- * @param {string} installDir Install Path
- * @returns {Promise.<boolean>}
- */
-const checkPiracy = async installDir => {
+export const checkPiracy = async (installDir: string) => {
   const knownFiles = [
     'IGG-GAMES.COM.url',
     'GAMESTORRENT.CO.url',

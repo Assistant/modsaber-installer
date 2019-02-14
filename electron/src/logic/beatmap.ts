@@ -1,15 +1,13 @@
-const path = require('path')
-const fse = require('../utils/file.js')
-const { extractZip } = require('../remote/remote.js')
-const { getActiveWindow } = require('../utils/window.js')
+import path from 'path'
+import { extractZip } from '../remote/remote'
+import fse from '../utils/file'
+import { getActiveWindow } from '../utils/window'
 
-/**
- * @param {Buffer} zip Beatmap Zip Body
- * @param {string} key Beatmap Key
- * @param {string} installDir Install Info
- * @returns {Promise.<void>}
- */
-const saveBeatmap = async (zip, key, installDir) => {
+export const saveBeatmap = async (
+  zip: Buffer,
+  key: string,
+  installDir: string
+) => {
   // Window Details
   const { sender } = getActiveWindow()
 
@@ -21,7 +19,8 @@ const saveBeatmap = async (zip, key, installDir) => {
   // Extract zip
   sender.send('set-status', { text: 'Extracting beatmap...' })
   const files = await extractZip(
-    zip, path.join(installDir, 'CustomSongs', key),
+    zip,
+    path.join(installDir, 'CustomSongs', key),
     {
       filter: ['.json', '.ogg', '.wav', '.jpg', '.jpeg', '.png'],
       filterType: 'whitelist',
@@ -42,7 +41,4 @@ const saveBeatmap = async (zip, key, installDir) => {
   // Flush all jobs and return
   await Promise.all(jobs)
   sender.send('set-status', { text: 'Beatmap install complete!' })
-  return undefined
 }
-
-module.exports = { saveBeatmap }

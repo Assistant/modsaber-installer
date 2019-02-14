@@ -1,24 +1,15 @@
+import { ISong } from '../models/beatsaver'
 import { safeDownload } from './remote'
 
 type SongIDType = 'id' | 'hash' | 'invalid'
 
-export const inputType = (input: string): SongIDType => {
+export const inputType = (input?: string): SongIDType => {
+  if (input === undefined) return 'invalid'
+
   const idRx = /^[0-9]{1,5}(?:-[0-9]{1,5})?$/g
   const hashRx = /^[a-f0-9]{32}$/i
 
   return idRx.test(input) ? 'id' : hashRx.test(input) ? 'hash' : 'invalid'
-}
-
-export interface ISong {
-  key: string
-  name: string
-  description: string
-  uploader: string
-  songName: string
-  songSubName: string
-  authorName: string
-  downloadUrl: string
-  hashMd5: string
 }
 
 interface ISongFetchError {

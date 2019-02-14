@@ -1,16 +1,19 @@
-const { dialog } = require('electron')
-const log = require('electron-log')
-const { getAttention } = require('../utils/window.js')
-const { enqueueJob, dequeueJob } = require('../utils/queue.js')
-const { getActiveWindow } = require('../utils/window.js')
+import { dialog } from 'electron'
+import log from 'electron-log'
+import { dequeueJob, enqueueJob } from '../utils/queue'
+import { getActiveWindow, getAttention } from '../utils/window'
 
-class JobError extends Error {
+export class JobError extends Error {
+  public readonly title: string
+  public readonly status: string | undefined
+  public flash: boolean
+
   /**
-   * @param {string} message Error Message
-   * @param {string} [status] IPC Status
-   * @param {string} [title] Dialog Title
+   * @param message Error Message
+   * @param status IPC Status
+   * @param title Dialog Title
    */
-  constructor (message, status, title) {
+  constructor(message: string, status?: string, title?: string) {
     super(message)
 
     this.title = title || 'Job Error'
@@ -20,12 +23,7 @@ class JobError extends Error {
   }
 }
 
-/**
- * @template T
- * @param {Promise.<T>} job Job
- * @returns {Promise.<boolean>}
- */
-const runJob = async job => {
+export const runJob = async <T>(job: Promise<T>) => {
   // Window Details
   const { window, sender } = getActiveWindow()
 
@@ -48,9 +46,9 @@ const runJob = async job => {
       if (err.status) sender.send('set-status', { text: err.status })
 
       dialog.showMessageBox(window, {
-        type: 'error',
-        title: err.title,
         message: err.message,
+        title: err.title,
+        type: 'error',
       })
     }
 

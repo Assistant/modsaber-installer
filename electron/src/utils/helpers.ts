@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
 
-export const calculateHash = (data: Buffer) =>
+export const calculateHash = (data: Buffer): Promise<string> =>
   new Promise(resolve => {
     const hash = createHash('sha1')
     hash.update(data)

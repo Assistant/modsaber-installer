@@ -32,7 +32,7 @@ export const REGISTERED_EXTS = [
   '.bplist',
 ]
 
-export const CUSTOM_FILE_DIRS = {
+export const CUSTOM_FILE_DIRS: { [key: string]: string } = {
   '.avatar': 'CustomAvatars',
   '.bplist': 'Playlists',
   '.plat': 'CustomPlatforms',

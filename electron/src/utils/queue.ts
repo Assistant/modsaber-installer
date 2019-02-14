@@ -10,7 +10,7 @@ interface ITask {
   id: string
 }
 
-const manageJob = (task: Task, id?: string) =>
+const manageJob = (task: Task, id?: string): Promise<string> =>
   new Promise((resolve, reject) => {
     const { window } = getActiveWindow()
     if (!window) return reject(new Error('Window not found'))

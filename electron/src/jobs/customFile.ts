@@ -1,31 +1,32 @@
-const path = require('path')
-const { parse: parseURL } = require('url')
-const fetch = require('../utils/fetch.js')
-const fse = require('../utils/file.js')
-const { JobError } = require('./job.js')
-const { findPath } = require('../logic/pathFinder.js')
-const { calculateHash } = require('../utils/helpers.js')
-const { getActiveWindow } = require('../utils/window.js')
-const { CUSTOM_FILE_DIRS, ERRORS } = require('../constants.js')
+import path from 'path'
+import { parse as parseURL } from 'url'
+import { CUSTOM_FILE_DIRS, ERRORS } from '../constants'
+import { findPath } from '../logic/pathFinder'
+import { fetch } from '../utils/fetch'
+import fse from '../utils/file'
+import { calculateHash } from '../utils/helpers'
+import { getActiveWindow } from '../utils/window'
+import { JobError } from './job'
 
-class CustomFileError extends JobError {
-  constructor (message, status, title) {
-    super(message, status, title)
-    this.title = title || 'File Install Error'
+export class CustomFileError extends JobError {
+  constructor(message: string, status?: string, title?: string) {
+    super(message, status, title || 'File Install Error')
   }
 }
 
-/**
- * @param {string} input Input path / URL
- * @param {boolean} [remote] Whether this is a URL
- */
-const handleCustomFile = async (input, remote = false) => {
+export const handleCustomFile = async (input: string, remote = false) => {
   // Window Details
   const { sender } = getActiveWindow()
 
   // Find install path
   const install = await findPath()
-  if (install.platform === 'unknown') throw new CustomFileError(ERRORS.INVALID_INSTALL_DIR)
+  if (
+    install.platform === 'unknown' ||
+    !install.valid ||
+    install.path === null
+  ) {
+    throw new CustomFileError(ERRORS.INVALID_INSTALL_DIR)
+  }
 
   // Parse file info
   const { base, ext } = path.parse(input)
@@ -34,7 +35,9 @@ const handleCustomFile = async (input, remote = false) => {
   if (!remote) {
     // Validate file exists
     const fileExists = await fse.exists(input)
-    if (!fileExists) throw new CustomFileError(`Could not find file ${fileName}!`)
+    if (!fileExists) {
+      throw new CustomFileError(`Could not find file ${fileName}!`)
+    }
   } else {
     // Validate file is trustworthy
     const { hostname } = parseURL(input)
@@ -45,7 +48,9 @@ const handleCustomFile = async (input, remote = false) => {
 
   // Validate file type
   const dir = CUSTOM_FILE_DIRS[ext]
-  if (dir === undefined) throw new CustomFileError(`File extension ${ext} not supported.`)
+  if (dir === undefined) {
+    throw new CustomFileError(`File extension ${ext} not supported.`)
+  }
 
   // Read file
   const data = await getData(input, remote)
@@ -63,7 +68,9 @@ const handleCustomFile = async (input, remote = false) => {
       calculateHash(data),
     ])
 
-    if (currentHash === newHash) throw new CustomFileError(`${fileName} is already installed!`)
+    if (currentHash === newHash) {
+      throw new CustomFileError(`${fileName} is already installed!`)
+    }
   }
 
   // Write file
@@ -75,7 +82,7 @@ const handleCustomFile = async (input, remote = false) => {
   return undefined
 }
 
-const getData = async (input, remote) => {
+const getData = async (input: string, remote: boolean) => {
   if (!remote) return fse.readFile(input)
 
   const resp = await fetch(input)
@@ -83,5 +90,3 @@ const getData = async (input, remote) => {
 
   return body
 }
-
-module.exports = { handleCustomFile }

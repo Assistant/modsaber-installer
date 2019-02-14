@@ -1,31 +1,9 @@
 import log from 'electron-log'
 import { inspect } from 'util'
 import { API_URL, BLOCKED_EXTENSIONS } from '../constants'
+import { IGameVersion, IMod } from '../models/modsaber'
 import { calculateHash } from '../utils/helpers'
 import { extractZip, safeDownload } from './remote'
-
-interface IFiles {
-  url: string
-  hash: string
-  files: any
-}
-
-export interface IMod {
-  name: string
-  version: string
-  files: {
-    steam: IFiles
-    oculus?: IFiles
-  }
-  approval: {
-    status: 'pending' | 'approved' | 'denied'
-    modified: string
-  }
-  gameVersion: {
-    value: string
-    manifest: string
-  }
-}
 
 export type ModListType = 'latest' | 'all' | 'newest-by-gameversion'
 export type ModPlatform = 'oculus' | 'steam'
@@ -84,17 +62,14 @@ export const fetchModsSafer = async (options: ModListType) => {
   }
 }
 
-/**
- * @returns {Promise.<{ id: string, value: string, manifest: string, selected: boolean }[]>}
- */
 export const fetchGameVersions = async () => {
   const resp = await fetch(`${API_URL}/site/gameversions`)
   const body = await resp.json()
 
-  return body
+  return body as IGameVersion[]
 }
 
-class DownloadError extends Error {
+export class DownloadError extends Error {
   public readonly mod: IMod
 
   constructor(message: string, mod: IMod) {
@@ -153,6 +128,6 @@ export const fetchByHash = async (hash: string, path?: string) => {
   }
 
   const resp = await fetch(`${API_URL}/mods/by-hash/${hash}`, params)
-  const mod: IMod = await resp.json()
+  const mod: IMod[] = await resp.json()
   return mod
 }

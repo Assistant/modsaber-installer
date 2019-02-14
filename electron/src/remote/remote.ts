@@ -18,7 +18,7 @@ interface IExtractOptions {
   filterType: 'whitelist' | 'blacklist'
 }
 
-interface IExtracted {
+export interface IExtracted {
   path: string
   data: Buffer
 }
