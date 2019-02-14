@@ -1,11 +1,18 @@
-const path = require('path')
-const { app, BrowserWindow, dialog, Menu, shell } = require('electron')
-const { autoUpdater } = require('electron-updater')
-const log = require('electron-log')
-const isDev = require('electron-is-dev')
+import { app, BrowserWindow, dialog, Menu, shell } from 'electron'
+import isDev from 'electron-is-dev'
+import log from 'electron-log'
+import { autoUpdater } from 'electron-updater'
+import path from 'path'
+
 const { handleSchema, handleFiles } = require('./src/events/argv.js')
 const { enqueueJob, dequeueJob } = require('./src/utils/queue.js')
-const { BASE_URL, VERSION, AUTO_UPDATE_JOB, REGISTERED_EXTS } = require('./src/constants.js')
+
+import {
+  AUTO_UPDATE_JOB,
+  BASE_URL,
+  REGISTERED_EXTS,
+  VERSION,
+} from './src/constants'
 
 // Event Handlers
 require('./src/events/path.js')
@@ -21,47 +28,52 @@ if (!instanceLock) app.quit()
 autoUpdater.autoDownload = false
 log.transports.file.level = 'warn'
 
-/**
- * @type {BrowserWindow}
- */
-let window
+interface IBrowserWindow extends BrowserWindow {
+  custom?: any
+}
 
-/**
- * @type {BrowserWindow}
- */
-let loadingWindow
+let window: IBrowserWindow
+let loadingWindow: IBrowserWindow | undefined
 
 const hasUpdateController = {
-  resolve: () => {
-    // No-op
-  },
-  reject: () => {
-    // No-op
-  },
   pending: true,
+  reject: (error: Error) => {
+    // No-op
+  },
+  resolve: (...args: any[]) => {
+    // No-op
+  },
 }
 
 app.on('ready', () => {
   loadingWindow = new BrowserWindow({
-    width: 290,
     height: 320,
-    resizable: false,
+    width: 290,
+
     frame: false,
-    show: false,
+    resizable: false,
+
     icon: path.join(__dirname, 'icon.png'),
+    show: false,
   })
 
-  const loadingURL = isDev ?
-    'http://localhost:3000' :
-    `file://${path.join(__dirname, '../build/index.html')}`
+  const loadingURL = isDev
+    ? 'http://localhost:3000'
+    : `file://${path.join(__dirname, '../build/index.html')}`
   loadingWindow.loadURL(loadingURL)
 
   loadingWindow.custom = { ROLE: 'WINDOW_LOADING' }
-  loadingWindow.once('ready-to-show', () => loadingWindow.show())
+  loadingWindow.once('ready-to-show', () => {
+    if (loadingWindow !== undefined) loadingWindow.show()
+  })
 
   const updateCheck = async () => {
     if (isDev) return false
-    else return (await autoUpdater.checkForUpdates()).cancellationToken !== undefined
+    else {
+      return (
+        (await autoUpdater.checkForUpdates()).cancellationToken !== undefined
+      )
+    }
   }
 
   const hasUpdate = new Promise((resolve, reject) => {
@@ -86,29 +98,33 @@ app.on('ready', () => {
   const minHeight = 600
 
   window = new BrowserWindow({
-    width: width,
     height: isDev ? height + 20 : height,
-    minWidth: minWidth,
+    width,
+
     minHeight: isDev ? minHeight + 20 : minHeight,
-    show: false,
+    minWidth,
+
     icon: path.join(__dirname, 'icon.png'),
+    show: false,
   })
 
-  const menu = !isDev ? null : Menu.buildFromTemplate([
-    {
-      label: 'Dev',
-      submenu: [
-        { role: 'reload' },
-        { role: 'forcereload' },
-        { role: 'toggledevtools' },
-      ],
-    },
-  ])
+  const menu = !isDev
+    ? null
+    : Menu.buildFromTemplate([
+        {
+          label: 'Dev',
+          submenu: [
+            { role: 'reload' },
+            { role: 'forcereload' },
+            { role: 'toggledevtools' },
+          ],
+        },
+      ])
   window.setMenu(menu)
 
-  const startURL = isDev ?
-    'http://localhost:3000' :
-    `file://${path.join(__dirname, '../build/index.html')}`
+  const startURL = isDev
+    ? 'http://localhost:3000'
+    : `file://${path.join(__dirname, '../build/index.html')}`
   window.loadURL(startURL)
 
   window.setTitle(`ModSaber Installer // v${VERSION}`)
@@ -125,7 +141,7 @@ app.on('ready', () => {
       autoUpdater.downloadUpdate()
     }
 
-    loadingWindow.destroy()
+    if (loadingWindow !== undefined) loadingWindow.destroy()
     loadingWindow = undefined
 
     window.show()
@@ -147,14 +163,7 @@ app.on('second-instance', (event, argv) => {
   return window.focus()
 })
 
-/**
- * @param {string[]} argv Process Arguments
- * @returns {void}
- */
-const handleArgs = argv => {
-  /**
-   * @type {string}
-   */
+const handleArgs = (argv: string[]) => {
   const args = argv.filter((_, i) => !(i < (isDev ? 2 : 1)))
 
   // Ignore if no args are passed
@@ -181,14 +190,22 @@ autoUpdater.on('download-progress', ({ percent }) => {
 
 autoUpdater.on('update-downloaded', async () => {
   const button = dialog.showMessageBox(window, {
-    type: 'info',
     buttons: ['Release Notes', 'OK'],
+    message:
+      'A newer version has been downloaded.\n\nClick OK to install the update.' +
+      '\nThe program will restart with the update applied.',
     title: 'Updater',
-    message: 'A newer version has been downloaded.\n\nClick OK to install the update.\nThe program will restart with the update applied.',
+    type: 'info',
   })
 
   if (button === 0) {
-    const { provider: { options: { owner, repo } } } = await autoUpdater.getUpdateInfoAndProvider()
+    const {
+      provider: {
+        // @ts-ignore
+        options: { owner, repo },
+      },
+      // @ts-ignore
+    } = await autoUpdater.getUpdateInfoAndProvider()
     const releases = `https://github.com/${owner}/${repo}/releases`
 
     shell.openExternal(releases)
