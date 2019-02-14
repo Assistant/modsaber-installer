@@ -4,8 +4,8 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import path from 'path'
 
-const { handleSchema, handleFiles } = require('./src/events/argv.js')
-const { enqueueJob, dequeueJob } = require('./src/utils/queue.js')
+import { handleFiles, handleSchema } from './src/events/argv'
+import { dequeueJob, enqueueJob } from './src/utils/queue'
 
 import {
   AUTO_UPDATE_JOB,
@@ -15,10 +15,10 @@ import {
 } from './src/constants'
 
 // Event Handlers
-require('./src/events/path.js')
-require('./src/events/remote.js')
-require('./src/events/installer.js')
-require('./src/events/diagnostics.js')
+import './src/events/diagnostics.js'
+import './src/events/installer.js'
+import './src/events/path.js'
+import './src/events/remote.js'
 
 // Instance Lock
 const instanceLock = app.requestSingleInstanceLock()
