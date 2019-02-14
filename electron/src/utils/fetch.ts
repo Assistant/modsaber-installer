@@ -26,7 +26,7 @@ export class FetchError extends Error {
 /**
  * Node Fetch but Better
  */
-export const betterFetch = async (url: string, init: RequestInit) => {
+const betterFetch = async (url: string, init?: RequestInit) => {
   const options = {
     agent,
     headers: { 'User-Agent': USER_AGENT },
@@ -39,3 +39,5 @@ export const betterFetch = async (url: string, init: RequestInit) => {
     return resp
   }
 }
+
+export { betterFetch as fetch }
