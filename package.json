@@ -60,6 +60,7 @@
   "scripts": {
     "electron": "electron .",
     "dev": "npm run electron -- --debug",
+    "dev:watch": "tsc -p ./electron --watch",
     "start": "npm run start-react",
     "start-react": "cross-env BROWSER=none react-scripts start",
     "build-react": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
