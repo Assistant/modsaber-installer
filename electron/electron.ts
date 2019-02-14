@@ -28,7 +28,7 @@ if (!instanceLock) app.quit()
 autoUpdater.autoDownload = false
 log.transports.file.level = 'warn'
 
-interface IBrowserWindow extends BrowserWindow {
+export interface IBrowserWindow extends BrowserWindow {
   custom?: any
 }
 

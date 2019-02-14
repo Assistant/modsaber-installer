@@ -25,13 +25,16 @@
     "@fortawesome/fontawesome-free": "^5.7.1",
     "@lolpants/bulma": "^0.7.2",
     "@types/electron-is-dev": "^0.3.0",
+    "@types/mkdirp": "^0.5.2",
     "@types/mousetrap": "^1.6.1",
     "@types/node": "^11.9.3",
+    "@types/node-fetch": "^2.1.6",
     "@types/react": "^16.8.2",
     "@types/react-dom": "^16.8.0",
     "@types/react-highlight": "^0.12.1",
     "@types/react-redux": "^7.0.1",
     "@types/redux-logger": "^3.0.6",
+    "@types/rimraf": "^2.0.2",
     "@types/semver": "^5.5.0",
     "@types/uuid": "^3.4.4",
     "cross-env": "^5.2.0",
@@ -62,33 +65,26 @@
     "electron": "electron .",
     "dev": "npm run electron -- --debug",
     "dev:watch": "tsc -p ./electron --watch",
-
     "start": "npm run start-react",
     "start:react": "cross-env BROWSER=none react-scripts start",
-
     "clean:react": "rimraf build",
     "clean:electron": "rimraf public/electron.js && rimraf public/src",
     "clean:dist": "rimraf dist",
     "clean": "npm run clean:react && npm run clean:electron && npm run clean:dist",
-
     "lint:electron": "tslint -c tslint.json 'electron/**/*.ts'",
     "lint:types": "npm run build:electron -- --noEmit",
     "lint:react": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "lint": "npm run lint:types && npm run lint:electron && npm run lint:react",
-
     "build:electron": "tsc -p ./electron",
     "build:react": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "build": "npm run build:electron && npm run build:react",
     "prebuild": "npm run lint && npm run clean",
-
     "pack:electron": "electron-builder -c.extraMetadata.main=build/electron.js --dir",
     "compile:electron": "electron-builder -c.extraMetadata.main=build/electron.js --win",
     "ship:electron": "electron-builder -c.extraMetadata.main=build/electron.js --win -p always",
-
     "pack": "npm run build && npm run pack:electron",
     "compile": "npm run build && npm run compile:electron",
     "ship": "npm run build && npm run ship:electron",
-
     "test": "npm run lint"
   },
   "build": {
