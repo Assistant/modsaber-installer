@@ -70,7 +70,7 @@
     "electron": "electron .",
     "dev": "npm run electron -- --debug",
     "dev:watch": "tsc -p ./electron --watch",
-    "start": "npm run start-react",
+    "start": "npm run start:react",
     "start:react": "cross-env BROWSER=none react-scripts start",
     "clean:react": "rimraf build",
     "clean:electron": "rimraf public/electron.js && rimraf public/src",
