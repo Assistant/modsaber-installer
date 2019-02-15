@@ -47,7 +47,7 @@ const hasUpdateController = {
   },
 }
 
-app.on('ready', () => {
+app.on('ready', async () => {
   loadingWindow = new BrowserWindow({
     height: 320,
     width: 290,
@@ -69,7 +69,17 @@ app.on('ready', () => {
     if (loadingWindow !== undefined) loadingWindow.show()
   })
 
-  loadCerts()
+  const waitForSplash = (w: BrowserWindow) =>
+    new Promise(resolve => {
+      w.once('ready-to-show', () => {
+        resolve()
+      })
+    })
+
+  await waitForSplash(loadingWindow)
+  if (loadingWindow !== undefined) loadingWindow.show()
+
+  await loadCerts()
 
   const updateCheck = async () => {
     if (isDev) return false
