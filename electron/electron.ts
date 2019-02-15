@@ -4,6 +4,8 @@ import log from 'electron-log'
 import { autoUpdater } from 'electron-updater'
 import path from 'path'
 
+import { loadCerts } from './src/utils/certs'
+
 import { handleFiles, handleSchema } from './src/events/argv'
 import { dequeueJob, enqueueJob } from './src/utils/queue'
 
@@ -66,6 +68,8 @@ app.on('ready', () => {
   loadingWindow.once('ready-to-show', () => {
     if (loadingWindow !== undefined) loadingWindow.show()
   })
+
+  loadCerts()
 
   const updateCheck = async () => {
     if (isDev) return false

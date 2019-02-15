@@ -1,8 +1,9 @@
 import https from 'https'
 import fetch, { Response } from 'node-fetch'
 import { USER_AGENT } from '../constants'
+import { getCerts } from './certs'
 
-const certs = require('ssl-root-cas/latest').create() // tslint:disable-line no-var-requires
+const certs = getCerts()
 const agent = new https.Agent({
   ca: certs,
   keepAlive: true,
