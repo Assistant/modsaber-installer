@@ -1,6 +1,6 @@
 {
   "name": "modsaber-installer",
-  "version": "1.4.0-beta.7",
+  "version": "1.4.0",
   "description": "Beat Saber Mod Installer - Powered by Electron",
   "private": true,
   "main": "public/electron.js",
