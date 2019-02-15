@@ -16,12 +16,6 @@ import {
   VERSION,
 } from './src/constants'
 
-// Event Handlers
-import './src/events/diagnostics.js'
-import './src/events/installer.js'
-import './src/events/path.js'
-import './src/events/remote.js'
-
 // Instance Lock
 const instanceLock = app.requestSingleInstanceLock()
 if (!instanceLock) app.quit()
@@ -79,7 +73,14 @@ app.on('ready', async () => {
   await waitForSplash(loadingWindow)
   if (loadingWindow !== undefined) loadingWindow.show()
 
+  // Load Root Certificates
   await loadCerts()
+
+  // Event Handlers
+  await import('./src/events/diagnostics.js')
+  await import('./src/events/installer.js')
+  await import('./src/events/path.js')
+  await import('./src/events/remote.js')
 
   const updateCheck = async () => {
     if (isDev) return false
@@ -155,7 +156,11 @@ app.on('ready', async () => {
       autoUpdater.downloadUpdate()
     }
 
-    if (loadingWindow !== undefined) loadingWindow.destroy()
+    if (loadingWindow !== undefined) {
+      loadingWindow.close()
+      loadingWindow.destroy()
+    }
+
     loadingWindow = undefined
 
     window.show()
@@ -165,6 +170,8 @@ app.on('ready', async () => {
   window.on('focus', () => {
     window.flashFrame(false)
   })
+
+  window.on('closed', () => app.quit())
 
   window.custom = { ROLE: 'WINDOW_MAIN', BASE_URL, AUTO_UPDATE_JOB }
 })
@@ -193,10 +200,6 @@ const handleArgs = (argv: string[]) => {
   // Return if unhandled
   return undefined
 }
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
-})
 
 autoUpdater.on('download-progress', ({ percent }) => {
   window.setProgressBar(percent / 100, { mode: 'normal' })
