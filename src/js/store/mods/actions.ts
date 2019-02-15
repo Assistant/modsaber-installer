@@ -125,18 +125,25 @@ export const toggleMod: (
 
   mod.install.selected = !mod.install.selected
 
+  const payload = mod.install.selected
+    ? checkMod(mod, mods)
+    : uncheckMod(mod, mods)
+
+  if (payload === undefined) return undefined
+
   dispatch({
-    payload: mod.install.selected ? checkMod(mod, mods) : uncheckMod(mod, mods),
+    payload,
     type: ModsActionTypes.SET_MODS_LIST,
   })
-
-  return undefined
 }
 
 const modKey = (mod = { name: 'Unknown', version: '?.?.?' }) =>
   `${mod.name}@${mod.version}`
 
-const checkMod: (mod: IMod, mods: IMod[]) => IMod[] = (mod, mods) => {
+const checkMod: (mod: IMod, mods: IMod[]) => IMod[] | undefined = (
+  mod,
+  mods
+) => {
   try {
     const depKeys = findLinks(mod, mods, 'dependencies', true) as string[]
     for (const key of depKeys) {
@@ -149,7 +156,7 @@ const checkMod: (mod: IMod, mods: IMod[]) => IMod[] = (mod, mods) => {
   } catch (err) {
     if (err.message !== ERR_NOT_SATISFIED) {
       dialog.showErrorBox('Unhandled Exception', err.message)
-      return mods
+      return undefined
     }
 
     dialog.showMessageBox(getCurrentWindow(), {
@@ -160,7 +167,7 @@ const checkMod: (mod: IMod, mods: IMod[]) => IMod[] = (mod, mods) => {
       type: 'error',
     })
 
-    return mods
+    return undefined
   }
 
   const conflicts = findLinks(mod, mods, 'conflicts', true) as string[]
@@ -189,7 +196,7 @@ const checkMod: (mod: IMod, mods: IMod[]) => IMod[] = (mod, mods) => {
       type: 'error',
     })
 
-    return mods
+    return undefined
   }
 
   return mods
