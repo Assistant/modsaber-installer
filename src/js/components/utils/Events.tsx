@@ -119,7 +119,7 @@ class Events extends Component<IProps> {
       <>
         {this.props.children}
 
-        <Konami action={() => this.props.toggleTheme()} />
+        <Konami timeout={5} action={() => this.props.toggleTheme()} />
       </>
     )
   }
