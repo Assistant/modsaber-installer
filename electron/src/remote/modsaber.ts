@@ -129,6 +129,6 @@ export const fetchByHash = async (hash: string, path?: string) => {
   }
 
   const resp = await fetch(`${API_URL}/mods/by-hash/${hash}`, params)
-  const mod: IMod[] = await resp.json()
-  return mod
+  const mods: IMod[] = await resp.json()
+  return mods
 }
