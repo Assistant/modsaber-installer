@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { IMod } from '../../../models/modsaber'
 import { IState } from '../../../store'
 import { setSelectedMod, toggleMod } from '../../../store/mods'
+import ExtLink from '../../utils/ExtLink'
 
 interface IPassedProps {
   mod: IMod
@@ -69,7 +70,15 @@ const Mod: FunctionComponent<IProps> = props => {
         <i className={`fas fa-lock`} />
       </td>
 
-      <td className='monospaced'>{props.mod.details.title}</td>
+      {!props.mod.promo ? (
+        <td className='monospaced'>{props.mod.details.title}</td>
+      ) : (
+        <td className='monospaced'>
+          {props.mod.details.title} -{' '}
+          <ExtLink href={props.mod.promo.url}>{props.mod.promo.text}</ExtLink>
+        </td>
+      )}
+
       <td className='monospaced'>{props.mod.details.author.name}</td>
       <td className='monospaced'>{props.mod.version}</td>
     </tr>

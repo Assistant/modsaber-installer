@@ -7,6 +7,7 @@ import {
   MODS_DEFAULT,
   MODS_REQUIRED,
 } from '../../constants'
+import promotions from '../../constants/promotions'
 import { IMod } from '../../models/modsaber'
 import { dialog, getCurrentWindow, ipcRenderer } from '../../utils/electron'
 import { ModsActionTypes } from './types'
@@ -44,7 +45,7 @@ export const setMods: (
 ) => (dispatch: Dispatch, getState: () => IState) => void = (
   index = 0,
   raw
-) => (dispatch, getState) => {
+) => async (dispatch, getState) => {
   if (raw) {
     dispatch({
       payload: raw,
@@ -71,6 +72,9 @@ export const setMods: (
         requiredBy: MODS_REQUIRED.includes(mod.name) ? ['global'] : [],
         selected: false,
       }
+
+      const promo = promotions.find(x => x.modName === mod.name)
+      if (promo) mod.promo = promo
 
       mod.index = idx
       return mod

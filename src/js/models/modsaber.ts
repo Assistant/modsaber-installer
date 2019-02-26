@@ -1,3 +1,5 @@
+import { IPromotion } from '../constants/promotions'
+
 export interface IGameVersion {
   id: string
   value: string
@@ -54,6 +56,8 @@ export interface IMod {
     requiredBy: string[]
     selected: boolean
   }
+
+  promo?: IPromotion
 }
 
 export interface ICategory {
