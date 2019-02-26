@@ -15,7 +15,7 @@ import {
 const App = () => (
   <div className='layout'>
     <div className='layout-item banner'>
-      <Banner style={BannerStyle.Danger}>
+      <Banner style={BannerStyle.Info}>
         <p>{DONATION_TEXT}</p>
         <p>
           <ExtLink href={DONATION_LINK}>{DONATION_LINK_TEXT}</ExtLink>{' '}

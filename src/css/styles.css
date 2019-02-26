@@ -76,15 +76,15 @@ div.layout-item {
 }
 
 /* Banner */
-article.message.is-danger {
-  background-color: var(--dark, #ffe3e3);
+article.message.is-info {
+  background-color: var(--dark, #e3f2ff);
 }
 
-article.message.is-danger div.message-body {
+article.message.is-info div.message-body {
   padding: 0.75em 1.25em;
 
-  color: var(--white, #b6072a);
-  border-color: var(--white, #ff2652);
+  color: var(--white, #0753b6);
+  border-color: var(--white, #267dff);
 }
 
 /* Top Content */

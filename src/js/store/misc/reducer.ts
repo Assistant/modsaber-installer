@@ -2,12 +2,8 @@ import { Reducer } from 'redux'
 import { electronStore } from '../../utils/electron'
 import { IMiscState, MiscActionTypes } from './types'
 
-const now = new Date()
-const lastSeen = new Date(electronStore.get('seenDonationPage'))
-const offset = 1000 * 60 * 60 * 24 * 31
-
 const initialState: IMiscState = {
-  seenDonationPage: lastSeen.getTime() + offset > now.getTime(),
+  seenDonationPage: !!electronStore.get('seenDonationPage'),
   theme: 'light',
 }
 
