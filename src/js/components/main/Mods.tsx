@@ -81,6 +81,7 @@ const Mods: FunctionComponent<IProps> = props => {
         <tbody>
           {categories.map((category, i) => (
             <Category
+              key={i}
               name={category.name}
               mods={category.mods}
               first={i === 0}
