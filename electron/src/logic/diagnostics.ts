@@ -3,6 +3,7 @@ import treeify from 'treeify'
 import { fetchByHash } from '../remote/modsaber'
 import fse from '../utils/file'
 import { calculateHash } from '../utils/helpers'
+import { isPatched } from '../utils/process'
 
 const renderTree = (root: string, tree: any) => {
   const HASH_LEN = 40
@@ -207,6 +208,12 @@ const getLogFiles = async (
 
 export const generate = async (dir: string) => {
   const version = await getVersion(dir)
+  const patched = await isPatched(
+    path.join(dir, 'Beat Saber_Data', 'Managed', 'UnityEngine.CoreModule.dll')
+  )
+
+  const suffix = patched ? 'PATCHED' : 'UNPATCHED'
+  const rootTitle = `${version} [${suffix}]`
 
   const managedFilter = [
     '0Harmony.dll',
@@ -266,7 +273,7 @@ export const generate = async (dir: string) => {
   }
 
   const sections = [
-    { title: 'Directory Structure', content: renderTree(version, tree) },
+    { title: 'Directory Structure', content: renderTree(rootTitle, tree) },
     { title: 'Detected Mods Breakdown', content: allMods.join('\n') },
     ...logFiles.appData.map(({ name, body }) => ({
       content: body,
