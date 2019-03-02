@@ -15,6 +15,19 @@ ipcMain.on('get-remote', async ({ sender }: IPCSender) => {
       fetchGameVersions(),
     ])
 
+    let sent = false
+    const send = () => {
+      if (sent) return undefined
+
+      window.setProgressBar(0, { mode: 'none' })
+      sender.send('set-remote', { status: 'success', mods, gameVersions })
+      sent = true
+    }
+
+    // Send after a timeout
+    setTimeout(() => send(), 5000)
+
+    // await new Promise(() => {})
     const manifestTest = await findSteam(STEAM_APP_ID)
     if (manifestTest.found) {
       const idx = gameVersions.findIndex(
@@ -26,8 +39,7 @@ ipcMain.on('get-remote', async ({ sender }: IPCSender) => {
       gameVersions[0].selected = true
     }
 
-    window.setProgressBar(0, { mode: 'none' })
-    sender.send('set-remote', { status: 'success', mods, gameVersions })
+    send()
   } catch (err) {
     log.error(err)
 
