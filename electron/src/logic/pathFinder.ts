@@ -16,24 +16,29 @@ const findSteamLibraries = (): Promise<string[]> =>
     })
 
     regKey.get('InstallPath', async (err, key) => {
-      if (err) return reject(err)
+      try {
+        if (err) throw err
 
-      const baseDir = path.join(key.value, 'steamapps')
-      const libraryfolders = await fse.readFile(
-        path.join(baseDir, 'libraryfolders.vdf'),
-        'utf8'
-      )
-
-      const regex = /\s"\d"\s+"(.+)"/
-      const libraries = libraryfolders
-        .split('\n')
-        .filter(line => line.match(regex))
-        .map(line =>
-          (regex.exec(line) as RegExpExecArray)[1].replace(/\\\\/g, '\\')
+        const baseDir = path.join(key.value, 'steamapps')
+        const libraryfolders = await fse.readFile(
+          path.join(baseDir, 'libraryfolders.vdf'),
+          'utf8'
         )
-        .map(line => path.join(line, 'steamapps'))
 
-      return resolve([baseDir, ...libraries])
+        const regex = /\s"\d"\s+"(.+)"/
+        const libraries = libraryfolders
+          .split('\n')
+          .filter(line => line.match(regex))
+          .map(line =>
+            (regex.exec(line) as RegExpExecArray)[1].replace(/\\\\/g, '\\')
+          )
+          .map(line => path.join(line, 'steamapps'))
+
+        return resolve([baseDir, ...libraries])
+      } catch (err) {
+        log.error(err)
+        return reject(err)
+      }
     })
   })
 
