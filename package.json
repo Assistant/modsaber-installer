@@ -4,7 +4,7 @@
   "description": "Beat Saber Mod Installer - Powered by Electron",
   "private": true,
   "main": "public/electron.js",
-  "homepage": "./",
+  "homepage": ".",
   "dependencies": {
     "adm-zip": "^0.4.13",
     "electron-is-dev": "^1.0.1",
@@ -95,7 +95,7 @@
   "build": {
     "appId": "com.jackbaron.modsaber-installer",
     "productName": "ModSaber Installer",
-    "copyright": "Copyright © 2018 ${author}",
+    "copyright": "Copyright © 2019 ${author}",
     "files": [
       "build/**/*",
       "node_modules/**/*"
