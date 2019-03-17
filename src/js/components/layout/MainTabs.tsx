@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { IState } from '../../store'
 import { setContainer } from '../../store/container'
+import { shakeForMs } from '../../store/misc'
 import { setCurrentTab, setMaxTabs } from '../../store/tabs'
 
 import Main from '../main/Main'
@@ -23,6 +24,7 @@ interface IProps {
   setContainer: typeof setContainer
   setCurrentTab: typeof setCurrentTab
   setMaxTabs: typeof setMaxTabs
+  shakeForMs: typeof shakeForMs
 }
 
 interface IPage {
@@ -88,6 +90,11 @@ class MainTabs extends Component<IProps> {
                   draggable={false}
                   onClick={e => {
                     e.preventDefault()
+                    if (!this.props.seenDonationPage) {
+                      this.props.shakeForMs()
+                      return false
+                    }
+
                     if (
                       i !== this.props.currentTab &&
                       this.container.current !== null
@@ -125,9 +132,10 @@ const mapStateToProps: (state: IState) => IProps = state => ({
   setContainer,
   setCurrentTab,
   setMaxTabs,
+  shakeForMs,
 })
 
 export default connect(
   mapStateToProps,
-  { setCurrentTab, setMaxTabs, setContainer }
+  { setCurrentTab, setMaxTabs, setContainer, shakeForMs }
 )(MainTabs)
