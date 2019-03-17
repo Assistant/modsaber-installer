@@ -10,6 +10,7 @@ import { store } from './js/store/index'
 
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@lolpants/bulma/css/bulma.css'
+import './css/anim.css'
 import './css/dark.css'
 import './css/styles.css'
 import './css/tools.css'
