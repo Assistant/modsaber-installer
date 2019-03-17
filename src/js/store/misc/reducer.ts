@@ -4,6 +4,7 @@ import { IMiscState, MiscActionTypes } from './types'
 
 const initialState: IMiscState = {
   seenDonationPage: !!electronStore.get('seenDonationPage'),
+  shake: false,
   theme: 'light',
 }
 
@@ -23,6 +24,8 @@ const reducer: Reducer<IMiscState> = (state = initialState, action) => {
   } else if (action.type === MiscActionTypes.SET_SEEN_DONATION_PAGE) {
     electronStore.set('seenDonationPage', new Date())
     return { ...state, seenDonationPage: action.payload }
+  } else if (action.type === MiscActionTypes.SET_SHAKE) {
+    return { ...state, shake: action.payload }
   } else {
     return state
   }

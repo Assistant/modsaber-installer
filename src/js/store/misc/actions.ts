@@ -35,3 +35,28 @@ export const setSeenDonationPage: (
     type: MiscActionTypes.SET_SEEN_DONATION_PAGE,
   })
 }
+
+export const setShake: (
+  shake: boolean
+) => (dispatch: Dispatch) => void = shake => dispatch => {
+  dispatch({
+    payload: shake,
+    type: MiscActionTypes.SET_SHAKE,
+  })
+}
+
+export const shakeForMs: (ms: number) => (dispatch: Dispatch) => void = (
+  ms = 10
+) => dispatch => {
+  dispatch({
+    payload: true,
+    type: MiscActionTypes.SET_SHAKE,
+  })
+
+  setTimeout(() => {
+    dispatch({
+      payload: false,
+      type: MiscActionTypes.SET_SHAKE,
+    })
+  }, ms)
+}
