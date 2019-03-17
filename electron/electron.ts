@@ -13,6 +13,7 @@ import {
   AUTO_UPDATE_JOB,
   BASE_URL,
   REGISTERED_EXTS,
+  REPO,
   VERSION,
 } from './src/constants'
 
@@ -40,6 +41,8 @@ const hasUpdateController = {
     // No-op
   },
 }
+
+let downloadingUpdate = false
 
 app.on('ready', async () => {
   loadingWindow = new BrowserWindow({
@@ -154,6 +157,23 @@ app.on('ready', async () => {
     if (await hasUpdate) {
       await enqueueJob(AUTO_UPDATE_JOB)
       autoUpdater.downloadUpdate()
+      downloadingUpdate = true
+
+      setTimeout(() => {
+        // Cancel update after 1 minute
+        if (!downloadingUpdate) return undefined
+        downloadingUpdate = false
+
+        dialog.showMessageBox(window, {
+          message:
+            'Auto-update failed!\nPlease download the new update manually.',
+          title: 'Auto Updater',
+          type: 'error',
+        })
+
+        shell.openExternal(`https://github.com/${REPO}/releases`)
+        app.quit()
+      }, 1000 * 60)
     }
 
     if (loadingWindow !== undefined) {
@@ -206,12 +226,14 @@ autoUpdater.on('download-progress', ({ percent }) => {
 })
 
 autoUpdater.on('update-downloaded', async () => {
+  downloadingUpdate = false
+
   const button = dialog.showMessageBox(window, {
     buttons: ['Release Notes', 'OK'],
     message:
       'A newer version has been downloaded.\n\nClick OK to install the update.' +
       '\nThe program will restart with the update applied.',
-    title: 'Updater',
+    title: 'Auto Updater',
     type: 'info',
   })
 
