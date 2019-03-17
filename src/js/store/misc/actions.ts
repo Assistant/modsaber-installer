@@ -45,9 +45,14 @@ export const setShake: (
   })
 }
 
-export const shakeForMs: (ms: number) => (dispatch: Dispatch) => void = (
-  ms = 10
-) => dispatch => {
+export const shakeForMs: (
+  ms?: number
+) => (dispatch: Dispatch, getState: () => IState) => void = (ms = 100) => (
+  dispatch,
+  getState
+) => {
+  if (getState().misc.shake) return undefined
+
   dispatch({
     payload: true,
     type: MiscActionTypes.SET_SHAKE,
