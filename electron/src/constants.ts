@@ -1,6 +1,10 @@
 const npmPackage = require('../../package.json') // tslint:disable-line no-var-requires
 
 export const VERSION = npmPackage.version
+export const REPO = npmPackage.repository.url.replace(
+  /git\+https:\/\/github.com\/(.+).git/,
+  '$1'
+)
 export const BASE_URL = 'https://www.modsaber.org'
 export const API_URL = `${BASE_URL}/api/v1.1`
 
