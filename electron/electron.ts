@@ -124,6 +124,10 @@ app.on('ready', async () => {
 
     icon: path.join(__dirname, 'icon.png'),
     show: false,
+
+    webPreferences: {
+      nodeIntegration: true,
+    },
   })
 
   const menu = !isDev
