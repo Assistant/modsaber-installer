@@ -17,6 +17,8 @@ import {
   VERSION,
 } from './src/constants'
 
+// AF-MSP
+
 // Instance Lock
 const instanceLock = app.requestSingleInstanceLock()
 if (!instanceLock) app.quit()
